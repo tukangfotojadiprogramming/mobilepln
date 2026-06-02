@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@color/bg_page">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="100dp" android:background="@drawable/bg_header_green" android:padding="20dp">
+        <ImageButton android:id="@+id/btnBack" android:layout_width="36dp" android:layout_height="36dp" android:layout_centerVertical="true" android:background="@drawable/bg_circle_white_alpha" android:src="@drawable/ic_back" android:padding="6dp" android:contentDescription="Kembali"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" android:text="Monitoring" android:textColor="@color/white" android:textSize="18sp" android:textStyle="bold"/>
+    </RelativeLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingStart="16dp" android:paddingEnd="16dp" android:paddingTop="14dp" android:paddingBottom="6dp">
+        <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_height="80dp" android:layout_weight="1" android:layout_marginEnd="8dp" app:cardCornerRadius="12dp" app:cardElevation="2dp" app:cardBackgroundColor="#E3F2FD">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center">
+                <TextView android:id="@+id/tvTotal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@color/sijaga_primary" android:textSize="26sp" android:textStyle="bold"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total" android:textColor="@color/sijaga_primary" android:textSize="11sp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_height="80dp" android:layout_weight="1" android:layout_marginEnd="8dp" app:cardCornerRadius="12dp" app:cardElevation="2dp" app:cardBackgroundColor="#FFF3E0">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center">
+                <TextView android:id="@+id/tvDiproses" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@color/status_diproses" android:textSize="26sp" android:textStyle="bold"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Diproses" android:textColor="@color/status_diproses" android:textSize="11sp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_height="80dp" android:layout_weight="1" app:cardCornerRadius="12dp" app:cardElevation="2dp" app:cardBackgroundColor="#E8F5E9">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center">
+                <TextView android:id="@+id/tvSelesai" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@color/status_selesai" android:textSize="26sp" android:textStyle="bold"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Selesai" android:textColor="@color/status_selesai" android:textSize="11sp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+    <ProgressBar android:id="@+id/progressBar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:layout_marginTop="20dp" android:visibility="gone" android:indeterminateTint="@color/color_staff"/>
+    <TextView android:id="@+id/tvKosong" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="40dp" android:gravity="center" android:text="📭  Belum ada laporan" android:textColor="@color/text_secondary" android:textSize="15sp" android:visibility="gone"/>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@+id/swipeRefresh" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvData" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingStart="16dp" android:paddingEnd="16dp" android:paddingTop="8dp" android:paddingBottom="16dp" android:clipToPadding="false"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg_page">
+
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="100dp"
+        android:background="@drawable/bg_header_blue" android:padding="20dp">
+        <ImageButton android:id="@+id/btnBack" android:layout_width="36dp" android:layout_height="36dp"
+            android:layout_centerVertical="true" android:background="@drawable/bg_circle_white_alpha"
+            android:src="@drawable/ic_back" android:padding="6dp" android:contentDescription="Kembali"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_centerInParent="true" android:text="Status Pengajuan"
+            android:textColor="@color/white" android:textSize="18sp" android:textStyle="bold"/>
+    </RelativeLayout>
+
+    <!-- Tab Bar manual yang clickable -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
+        android:background="@color/bg_card" android:orientation="horizontal"
+        android:elevation="2dp">
+        <TextView android:id="@+id/tabGangguan"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+            android:gravity="center" android:text="⚠️  Gangguan"
+            android:textColor="@color/sijaga_primary" android:textSize="13sp" android:textStyle="bold"
+            android:clickable="true" android:focusable="true"
+            android:background="@drawable/bg_tab_selected"/>
+        <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/divider"/>
+        <TextView android:id="@+id/tabPasangBaru"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+            android:gravity="center" android:text="🔌  Pasang Baru"
+            android:textColor="@color/text_secondary" android:textSize="13sp"
+            android:clickable="true" android:focusable="true"
+            android:background="@color/bg_card"/>
+    </LinearLayout>
+
+    <ProgressBar android:id="@+id/progressBar" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_gravity="center"
+        android:layout_marginTop="40dp" android:visibility="gone"
+        android:indeterminateTint="@color/sijaga_primary"/>
+
+    <TextView android:id="@+id/tvKosong" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_marginTop="60dp"
+        android:gravity="center" android:text="📭  Belum ada pengajuan"
+        android:textColor="@color/text_secondary" android:textSize="15sp" android:visibility="gone"/>
+
+    <!-- RV Gangguan -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@+id/swipeGangguan"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvGangguan"
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            android:paddingStart="16dp" android:paddingEnd="16dp"
+            android:paddingTop="12dp" android:paddingBottom="16dp" android:clipToPadding="false"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- RV Pasang Baru -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@+id/swipePasangBaru"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:visibility="gone">
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvPasangBaru"
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            android:paddingStart="16dp" android:paddingEnd="16dp"
+            android:paddingTop="12dp" android:paddingBottom="16dp" android:clipToPadding="false"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>

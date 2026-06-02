@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Si Jaga Brand Colors -->
+    <color name="sijaga_primary">#1565C0</color>
+    <color name="sijaga_primary_dark">#0D47A1</color>
+    <color name="sijaga_accent">#FF6F00</color>
+    <color name="sijaga_green">#2E7D32</color>
+    <color name="sijaga_green_light">#43A047</color>
+
+    <!-- Role Colors -->
+    <color name="color_customer">#1565C0</color>
+    <color name="color_staff">#2E7D32</color>
+
+    <!-- Status Colors -->
+    <color name="status_baru">#1565C0</color>
+    <color name="status_baru_bg">#E3F2FD</color>
+    <color name="status_diproses">#E65100</color>
+    <color name="status_diproses_bg">#FFF3E0</color>
+    <color name="status_terverifikasi">#00838F</color>
+    <color name="status_terverifikasi_bg">#E0F7FA</color>
+    <color name="status_ditugaskan">#6A1B9A</color>
+    <color name="status_ditugaskan_bg">#F3E5F5</color>
+    <color name="status_selesai">#2E7D32</color>
+    <color name="status_selesai_bg">#E8F5E9</color>
+    <color name="status_ditolak">#C62828</color>
+    <color name="status_ditolak_bg">#FFEBEE</color>
+
+    <!-- UI Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="bg_page">#F5F7FA</color>
+    <color name="bg_card">#FFFFFF</color>
+    <color name="text_primary">#1A1A2E</color>
+    <color name="text_secondary">#546E7A</color>
+    <color name="text_hint">#9E9E9E</color>
+    <color name="divider">#ECEFF1</color>
+    <color name="shadow">#1A000000</color>
+    <color name="overlay_dark">#66000000</color>
+
+    <!-- Gradient stops -->
+    <color name="grad_start">#1565C0</color>
+    <color name="grad_end">#0D47A1</color>
 </resources>

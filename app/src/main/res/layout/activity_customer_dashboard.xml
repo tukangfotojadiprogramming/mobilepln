@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg_page">
+
+    <!-- Scrollable content -->
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent"
+        android:layout_height="0dp" android:layout_weight="1">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Banner Header -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="200dp"
+                android:background="@drawable/bg_banner_customer"
+                android:orientation="vertical" android:padding="20dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <LinearLayout android:layout_width="36dp" android:layout_height="36dp"
+                        android:background="@drawable/bg_logo_circle_white" android:gravity="center">
+                        <ImageView android:layout_width="28dp" android:layout_height="28dp"
+                            android:src="@drawable/logo_sijaga" android:scaleType="fitCenter"/>
+                    </LinearLayout>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:layout_marginStart="10dp"
+                        android:text="SIJAGA" android:textColor="@color/white"
+                        android:textSize="18sp" android:textStyle="bold"/>
+                    <LinearLayout android:layout_width="36dp" android:layout_height="36dp"
+                        android:background="@drawable/bg_circle_white_alpha" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="🔔" android:textSize="16sp"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" android:text="Halo,"
+                    android:textColor="#BBDEFB" android:textSize="13sp"/>
+                <TextView android:id="@+id/tvNama" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="Pelanggan"
+                    android:textColor="@color/white" android:textSize="22sp" android:textStyle="bold"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" android:text="Pelanggan PLN · SIJAGA"
+                    android:textColor="#90CAF9" android:textSize="12sp"/>
+            </LinearLayout>
+
+            <!-- Info Card overlap banner -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
+                android:layout_marginTop="-24dp" android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp" app:cardElevation="6dp"
+                app:cardBackgroundColor="@color/bg_card">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:padding="16dp">
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Laporan Aktif" android:textColor="@color/text_secondary" android:textSize="11sp"/>
+                        <TextView android:id="@+id/tvLaporanAktif" android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:text="0"
+                            android:textColor="@color/sijaga_primary" android:textSize="22sp" android:textStyle="bold"/>
+                    </LinearLayout>
+                    <View android:layout_width="1dp" android:layout_height="40dp" android:background="@color/divider"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Selesai" android:textColor="@color/text_secondary" android:textSize="11sp"/>
+                        <TextView android:id="@+id/tvSelesai" android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:text="0"
+                            android:textColor="@color/status_selesai" android:textSize="22sp" android:textStyle="bold"/>
+                    </LinearLayout>
+                    <View android:layout_width="1dp" android:layout_height="40dp" android:background="@color/divider"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Terverifikasi" android:textColor="@color/text_secondary" android:textSize="11sp"/>
+                        <TextView android:id="@+id/tvDiproses" android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:text="0"
+                            android:textColor="@color/status_terverifikasi" android:textSize="22sp" android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Layanan label -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginStart="20dp" android:layout_marginBottom="12dp"
+                android:text="Layanan" android:textColor="@color/text_primary"
+                android:textSize="16sp" android:textStyle="bold"/>
+
+            <!-- Icon Grid 3 kolom (Riwayat dihapus) -->
+            <GridLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:columnCount="3" android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp" android:layout_marginBottom="20dp">
+
+                <!-- Lapor Gangguan -->
+                <LinearLayout android:id="@+id/menuLaporGangguan"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:orientation="vertical"
+                    android:gravity="center" android:padding="8dp"
+                    android:clickable="true" android:focusable="true">
+                    <LinearLayout android:layout_width="64dp" android:layout_height="64dp"
+                        android:background="@drawable/bg_icon_grid_orange" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="⚠️" android:textSize="28sp"/>
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp" android:text="Lapor&#10;Gangguan"
+                        android:textColor="@color/text_primary" android:textSize="12sp"
+                        android:gravity="center" android:lineSpacingExtra="2dp"/>
+                </LinearLayout>
+
+                <!-- Pasang Baru -->
+                <LinearLayout android:id="@+id/menuPasangBaru"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:orientation="vertical"
+                    android:gravity="center" android:padding="8dp"
+                    android:clickable="true" android:focusable="true">
+                    <LinearLayout android:layout_width="64dp" android:layout_height="64dp"
+                        android:background="@drawable/bg_icon_grid_blue" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="🔌" android:textSize="28sp"/>
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp" android:text="Pasang&#10;Baru"
+                        android:textColor="@color/text_primary" android:textSize="12sp"
+                        android:gravity="center" android:lineSpacingExtra="2dp"/>
+                </LinearLayout>
+
+            </GridLayout>
+
+            <!-- Laporan Terbaru -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:paddingStart="20dp" android:paddingEnd="16dp" android:paddingBottom="10dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="Laporan Terbaru"
+                    android:textColor="@color/text_primary" android:textSize="16sp" android:textStyle="bold"/>
+                <TextView android:id="@+id/tvLihatSemua" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="Lihat Semua ›"
+                    android:textColor="@color/sijaga_primary" android:textSize="13sp"
+                    android:clickable="true" android:focusable="true"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvData"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:paddingStart="16dp" android:paddingEnd="16dp"
+                android:paddingBottom="8dp" android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"/>
+
+            <TextView android:id="@+id/tvKosong" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:padding="24dp"
+                android:gravity="center" android:text="📭  Belum ada laporan"
+                android:textColor="@color/text_secondary" android:textSize="14sp"
+                android:visibility="gone"/>
+
+            <View android:layout_width="match_parent" android:layout_height="16dp"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Navigation -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="64dp"
+        android:background="@drawable/bg_bottom_nav" android:orientation="horizontal"
+        android:elevation="12dp">
+        <LinearLayout android:id="@+id/navBeranda" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:gravity="center"
+            android:clickable="true" android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="🏠" android:textSize="22sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Beranda" android:textSize="10sp"
+                android:textColor="@color/sijaga_primary" android:textStyle="bold"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/navStatus" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:gravity="center"
+            android:clickable="true" android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="📋" android:textSize="22sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Riwayat" android:textSize="10sp" android:textColor="@color/text_hint"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/navLogout" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:gravity="center"
+            android:clickable="true" android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="🚪" android:textSize="22sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Logout" android:textSize="10sp"
+                android:textColor="@color/status_ditolak" android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
