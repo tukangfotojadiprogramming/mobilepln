@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Si Jaga</string>
+    <string name="app_fullname">Sistem Informasi Jaringan Gangguan</string>
+    <string name="login_title">Masuk ke Si Jaga</string>
+    <string name="menu_lapor_gangguan">Lapor Gangguan</string>
+    <string name="menu_pasang_baru">Pasang Baru</string>
+    <string name="menu_status">Status Pengajuan</string>
+    <string name="menu_pekerjaan">Pekerjaan Saya</string>
+    <string name="menu_upload">Upload Dokumen</string>
+    <string name="menu_validasi">Validasi Laporan</string>
+    <string name="menu_monitoring">Monitoring</string>
+    <string name="menu_statistik">Statistik</string>
+    <string name="menu_kelola_akun">Kelola Akun</string>
+</resources>

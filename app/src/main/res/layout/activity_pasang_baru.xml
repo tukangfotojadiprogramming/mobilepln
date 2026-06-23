@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg_page" android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="100dp" android:background="@drawable/bg_header_blue" android:padding="20dp">
+            <ImageButton android:id="@+id/btnBack" android:layout_width="36dp" android:layout_height="36dp" android:layout_centerVertical="true" android:background="@drawable/bg_circle_white_alpha" android:src="@drawable/ic_back" android:padding="6dp" android:contentDescription="Kembali"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" android:text="Pasang Baru" android:textColor="@color/white" android:textSize="18sp" android:textStyle="bold"/>
+        </RelativeLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+            <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="16dp" app:cardElevation="2dp" app:cardBackgroundColor="@color/bg_card">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="👤 Data Pemohon" android:textColor="@color/text_primary" android:textSize="15sp" android:textStyle="bold" android:layout_marginBottom="14dp"/>
+                    <com.google.android.material.textfield.TextInputLayout style="@style/InputField" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Nama Lengkap" android:layout_marginBottom="12dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etNama" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textPersonName"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout style="@style/InputField" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="NIK (16 digit)" android:layout_marginBottom="12dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etNik" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" android:maxLength="16"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout style="@style/InputField" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Nomor Telepon" android:layout_marginBottom="0dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etTelepon" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="phone"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="16dp" app:cardElevation="2dp" app:cardBackgroundColor="@color/bg_card">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🏠 Lokasi Pemasangan" android:textColor="@color/text_primary" android:textSize="15sp" android:textStyle="bold" android:layout_marginBottom="14dp"/>
+                    <com.google.android.material.textfield.TextInputLayout style="@style/InputField" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Alamat Lengkap" android:layout_marginBottom="12dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etAlamat" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textMultiLine" android:lines="3" android:gravity="top"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout style="@style/InputField" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Daya yang Diinginkan (VA)" android:layout_marginBottom="0dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etDaya" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <ProgressBar android:id="@+id/progressBar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:visibility="gone" android:indeterminateTint="@color/sijaga_primary"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnKirim" style="@style/BtnPrimary" android:layout_width="match_parent" android:layout_height="52dp" android:backgroundTint="@color/sijaga_primary" android:text="📤  Kirim Pengajuan" android:layout_marginBottom="24dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

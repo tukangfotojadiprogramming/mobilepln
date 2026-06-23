@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg_page">
+
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="100dp"
+        android:background="@drawable/bg_header_green" android:padding="20dp">
+        <ImageButton android:id="@+id/btnBack" android:layout_width="36dp" android:layout_height="36dp"
+            android:layout_centerVertical="true" android:background="@drawable/bg_circle_white_alpha"
+            android:src="@drawable/ic_back" android:padding="6dp" android:contentDescription="Kembali"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_centerInParent="true" android:text="Kelola Akun"
+            android:textColor="@color/white" android:textSize="18sp" android:textStyle="bold"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnTambah"
+            android:layout_width="wrap_content" android:layout_height="36dp"
+            android:layout_alignParentEnd="true" android:layout_centerVertical="true"
+            android:backgroundTint="#FFFFFF" android:textColor="@color/color_staff"
+            android:text="+ Tambah" android:textSize="12sp" app:cornerRadius="18dp"/>
+    </RelativeLayout>
+
+    <!-- Search bar -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/InputField"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
+        android:layout_marginTop="12dp" android:layout_marginBottom="0dp"
+        android:hint="Cari nama / email...">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCari" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:inputType="text" android:singleLine="true"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Tab bar 4 tab style sama seperti Status Pengajuan -->
+    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="50dp"
+        android:scrollbars="none" android:fillViewport="true"
+        android:background="@color/bg_card" android:elevation="2dp"
+        android:layout_marginTop="10dp">
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView android:id="@+id/tabSemua"
+                android:layout_width="90dp" android:layout_height="match_parent"
+                android:gravity="center" android:text="Semua"
+                android:textColor="@color/color_staff" android:textSize="13sp" android:textStyle="bold"
+                android:clickable="true" android:focusable="true"
+                android:background="@drawable/bg_tab_selected_green"/>
+            <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/divider"/>
+            <TextView android:id="@+id/tabStaff"
+                android:layout_width="90dp" android:layout_height="match_parent"
+                android:gravity="center" android:text="Staff PLN"
+                android:textColor="@color/text_secondary" android:textSize="13sp"
+                android:clickable="true" android:focusable="true"
+                android:background="@color/bg_card"/>
+            <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/divider"/>
+            <TextView android:id="@+id/tabPelanggan"
+                android:layout_width="90dp" android:layout_height="match_parent"
+                android:gravity="center" android:text="Pelanggan"
+                android:textColor="@color/text_secondary" android:textSize="13sp"
+                android:clickable="true" android:focusable="true"
+                android:background="@color/bg_card"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <ProgressBar android:id="@+id/progressBar" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_gravity="center"
+        android:layout_marginTop="20dp" android:visibility="gone"
+        android:indeterminateTint="@color/color_staff"/>
+
+    <TextView android:id="@+id/tvKosong" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_marginTop="60dp"
+        android:gravity="center" android:text="👥  Tidak ada akun ditemukan"
+        android:textColor="@color/text_secondary" android:textSize="15sp" android:visibility="gone"/>
+
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvData"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:paddingStart="16dp" android:paddingEnd="16dp"
+        android:paddingTop="8dp" android:paddingBottom="16dp" android:clipToPadding="false"/>
+</LinearLayout>

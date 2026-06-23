@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.SiJaga" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <item name="colorPrimary">@color/sijaga_primary</item>
+        <item name="colorPrimaryDark">@color/sijaga_primary_dark</item>
+        <item name="colorAccent">@color/sijaga_accent</item>
+    </style>
+</resources>

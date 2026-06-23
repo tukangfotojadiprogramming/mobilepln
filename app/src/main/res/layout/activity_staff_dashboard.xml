@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg_page">
+
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent"
+        android:layout_height="0dp" android:layout_weight="1">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Banner -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="200dp"
+                android:background="@drawable/bg_banner_staff" android:orientation="vertical" android:padding="20dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <LinearLayout android:layout_width="36dp" android:layout_height="36dp"
+                        android:background="@drawable/bg_logo_circle_white" android:gravity="center">
+                        <ImageView android:layout_width="28dp" android:layout_height="28dp"
+                            android:src="@drawable/logo_sijaga" android:scaleType="fitCenter"/>
+                    </LinearLayout>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:layout_marginStart="10dp"
+                        android:text="SIJAGA" android:textColor="@color/white"
+                        android:textSize="18sp" android:textStyle="bold"/>
+                    <LinearLayout android:layout_width="36dp" android:layout_height="36dp"
+                        android:background="@drawable/bg_circle_white_alpha" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="🔔" android:textSize="16sp"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" android:text="Halo," android:textColor="#A5D6A7" android:textSize="13sp"/>
+                <TextView android:id="@+id/tvNama" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="Staff PLN"
+                    android:textColor="@color/white" android:textSize="22sp" android:textStyle="bold"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" android:text="Staff PLN · SIJAGA"
+                    android:textColor="#A5D6A7" android:textSize="12sp"/>
+            </LinearLayout>
+
+            <!-- Stat Card -->
+            <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
+                android:layout_marginTop="-24dp" android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp" app:cardElevation="6dp" app:cardBackgroundColor="@color/bg_card">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:padding="16dp">
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Perlu Validasi" android:textColor="@color/text_secondary" android:textSize="11sp"/>
+                        <TextView android:id="@+id/tvStatValidasi" android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:text="0"
+                            android:textColor="@color/status_diproses" android:textSize="22sp" android:textStyle="bold"/>
+                    </LinearLayout>
+                    <View android:layout_width="1dp" android:layout_height="40dp" android:background="@color/divider"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Terverifikasi" android:textColor="@color/text_secondary" android:textSize="11sp"/>
+                        <TextView android:id="@+id/tvStatDiproses" android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:text="0"
+                            android:textColor="@color/sijaga_primary" android:textSize="22sp" android:textStyle="bold"/>
+                    </LinearLayout>
+                    <View android:layout_width="1dp" android:layout_height="40dp" android:background="@color/divider"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Selesai" android:textColor="@color/text_secondary" android:textSize="11sp"/>
+                        <TextView android:id="@+id/tvStatSelesai" android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:text="0"
+                            android:textColor="@color/status_selesai" android:textSize="22sp" android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginStart="20dp" android:layout_marginBottom="12dp"
+                android:text="Menu Utama" android:textColor="@color/text_primary"
+                android:textSize="16sp" android:textStyle="bold"/>
+
+            <!-- Grid Row 1: Validasi (2 ikon) + Statistik -->
+            <!-- Grid Menu Utama: 4 item sejajar -->
+            <GridLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:columnCount="4" android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" android:layout_marginBottom="20dp">
+
+                <LinearLayout android:id="@+id/menuValidasiGangguan"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:orientation="vertical"
+                    android:gravity="center" android:padding="6dp"
+                    android:clickable="true" android:focusable="true">
+                    <LinearLayout android:layout_width="56dp" android:layout_height="56dp"
+                        android:background="@drawable/bg_icon_grid_orange" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="⚠️" android:textSize="24sp"/>
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp" android:text="Validasi&#10;Gangguan"
+                        android:textColor="@color/text_primary" android:textSize="11sp" android:gravity="center"/>
+                    <TextView android:id="@+id/badgeGangguan" android:layout_width="18dp"
+                        android:layout_height="18dp" android:background="@drawable/bg_timeline_dot"
+                        android:gravity="center" android:text="0" android:textColor="@color/white"
+                        android:textSize="10sp" android:textStyle="bold" android:visibility="gone"/>
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/menuValidasiPasangBaru"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:orientation="vertical"
+                    android:gravity="center" android:padding="6dp"
+                    android:clickable="true" android:focusable="true">
+                    <LinearLayout android:layout_width="56dp" android:layout_height="56dp"
+                        android:background="@drawable/bg_icon_grid_blue" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="🔌" android:textSize="24sp"/>
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp" android:text="Validasi&#10;Pasang Baru"
+                        android:textColor="@color/text_primary" android:textSize="11sp" android:gravity="center"/>
+                    <TextView android:id="@+id/badgePasangBaru" android:layout_width="18dp"
+                        android:layout_height="18dp" android:background="@drawable/bg_timeline_dot"
+                        android:gravity="center" android:text="0" android:textColor="@color/white"
+                        android:textSize="10sp" android:textStyle="bold" android:visibility="gone"/>
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/menuStatistik"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:orientation="vertical"
+                    android:gravity="center" android:padding="6dp"
+                    android:clickable="true" android:focusable="true">
+                    <LinearLayout android:layout_width="56dp" android:layout_height="56dp"
+                        android:background="@drawable/bg_icon_grid_green" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="📈" android:textSize="24sp"/>
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp" android:text="Statistik"
+                        android:textColor="@color/text_primary" android:textSize="11sp" android:gravity="center"/>
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/menuKelolaAkun"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:orientation="vertical"
+                    android:gravity="center" android:padding="6dp"
+                    android:clickable="true" android:focusable="true">
+                    <LinearLayout android:layout_width="56dp" android:layout_height="56dp"
+                        android:background="@drawable/bg_icon_grid_purple" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="👥" android:textSize="24sp"/>
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp" android:text="Kelola&#10;Akun"
+                        android:textColor="@color/text_primary" android:textSize="11sp" android:gravity="center"/>
+                </LinearLayout>
+
+            </GridLayout>
+
+            <!-- Laporan Terbaru -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:paddingStart="20dp" android:paddingEnd="16dp" android:paddingBottom="10dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="Laporan Terbaru"
+                    android:textColor="@color/text_primary" android:textSize="16sp" android:textStyle="bold"/>
+                <TextView android:id="@+id/tvLihatSemua" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="Lihat Semua ›"
+                    android:textColor="@color/color_staff" android:textSize="13sp"
+                    android:clickable="true" android:focusable="true"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvData"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:paddingStart="16dp" android:paddingEnd="16dp"
+                android:paddingBottom="8dp" android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"/>
+
+            <TextView android:id="@+id/tvKosong" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:padding="24dp"
+                android:gravity="center" android:text="📭  Belum ada laporan"
+                android:textColor="@color/text_secondary" android:textSize="14sp"
+                android:visibility="gone"/>
+
+            <View android:layout_width="match_parent" android:layout_height="16dp"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Navigation -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="64dp"
+        android:background="@drawable/bg_bottom_nav" android:orientation="horizontal"
+        android:elevation="12dp">
+        <LinearLayout android:id="@+id/navBeranda" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:gravity="center"
+            android:clickable="true" android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="🏠" android:textSize="22sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Beranda" android:textSize="10sp"
+                android:textColor="@color/color_staff" android:textStyle="bold"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/navMonitoring" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:gravity="center"
+            android:clickable="true" android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="📡" android:textSize="22sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Monitoring" android:textSize="10sp" android:textColor="@color/text_hint"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/navLogout" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:gravity="center"
+            android:clickable="true" android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="🚪" android:textSize="22sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Logout" android:textSize="10sp"
+                android:textColor="@color/status_ditolak" android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
