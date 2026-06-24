@@ -69,6 +69,9 @@ interface PasangBaruDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(p: PasangBaru): Long
 
+    @Query("DELETE FROM pasang_baru")
+    suspend fun deleteAll()
+
     @Query("SELECT * FROM pasang_baru WHERE userId = :uid ORDER BY createdAt DESC")
     fun getByUser(uid: Int): Flow<List<PasangBaru>>
 

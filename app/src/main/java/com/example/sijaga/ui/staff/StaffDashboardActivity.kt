@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sijaga.data.local.AppDatabase
+import com.example.sijaga.data.local.remote.ApiClient
+import com.example.sijaga.data.local.entity.PasangBaru
 import com.example.sijaga.databinding.ActivityStaffDashboardBinding
 import com.example.sijaga.ui.adapter.GangguanAdapter
 import com.example.sijaga.ui.auth.LoginActivity
@@ -43,6 +45,34 @@ class StaffDashboardActivity : AppCompatActivity() {
 
     private fun loadStats() {
         val db = AppDatabase.getInstance(this)
+
+        // Tarik data terbaru dari server saat dashboard dibuka
+        lifecycleScope.launch {
+            try {
+                val response = ApiClient.instance.getPasangBaru()
+                if (response.isSuccessful) {
+                    val list = response.body() ?: emptyList()
+                    db.pasangBaruDao().deleteAll()
+                    list.forEach { item ->
+                        val entity = PasangBaru(
+                            id = item.id.toIntOrNull() ?: 0,
+                            userId = item.userId ?: 0,
+                            nama = item.nama ?: "",
+                            nik = item.nik ?: "",
+                            telepon = item.telepon ?: "",
+                            alamat = item.alamat ?: "",
+                            daya = item.daya ?: 0,
+                            status = item.status ?: "baru"
+                        )
+                        db.pasangBaruDao().insert(entity)
+                    }
+                }
+            } catch (e: Exception) {
+                // Gagal sync? Tenang, tetap pakai data lokal
+            }
+        }
+
+        // Tampilkan statistik (kode asli kamu)
         lifecycleScope.launch {
             launch { db.gangguanDao().countBaru().collectLatest { n -> runOnUiThread {
                 b.tvStatValidasi.text = n.toString()
