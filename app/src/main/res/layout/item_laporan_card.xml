@@ -24,6 +24,18 @@
                 android:layout_height="wrap_content" android:text="01 Jan 2025"
                 android:textColor="@color/text_hint" android:textSize="11sp" android:layout_marginTop="2dp"/>
         </LinearLayout>
+
+        <!-- ImageView untuk Foto -->
+        <ImageView
+            android:id="@+id/ivFoto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:scaleType="centerCrop"
+            android:background="@color/divider"
+            android:visibility="gone" />
+
         <TextView android:id="@+id/tvStatus" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:text="Diproses"
             android:textColor="@color/status_diproses" android:textSize="11sp" android:textStyle="bold"

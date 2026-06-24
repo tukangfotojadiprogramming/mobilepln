@@ -1,13 +1,18 @@
 package com.example.sijaga.ui.adapter
 
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sijaga.R
 import com.example.sijaga.data.local.entity.Gangguan
+import java.io.File
 
 class GangguanAdapter(
     private var list: List<Gangguan>,
@@ -21,6 +26,7 @@ class GangguanAdapter(
         val tvLokasi: TextView = v.findViewById(R.id.tvLokasi)
         val tvTanggal: TextView= v.findViewById(R.id.tvTanggal)
         val tvStatus: TextView = v.findViewById(R.id.tvStatus)
+        val ivFoto: ImageView  = v.findViewById(R.id.ivFoto)
     }
 
     override fun onCreateViewHolder(p: ViewGroup, t: Int) =
@@ -34,6 +40,27 @@ class GangguanAdapter(
         h.tvJudul.text   = g.jenis
         h.tvLokasi.text  = "📍 ${g.alamat}"
         h.tvTanggal.text = "🕒 ${java.text.SimpleDateFormat("dd MMM yyyy, HH:mm", java.util.Locale("id")).format(java.util.Date(g.createdAt))}"
+        
+        // Menampilkan Foto (Base64 atau Local Path)
+        if (g.fotoPath.isNotEmpty()) {
+            h.ivFoto.visibility = View.VISIBLE
+            try {
+                if (g.fotoPath.startsWith("/")) {
+                    // Path Lokal (HP Pengirim)
+                    h.ivFoto.setImageURI(Uri.fromFile(File(g.fotoPath)))
+                } else {
+                    // Base64 String (HP Penerima dari Server)
+                    val imageBytes = Base64.decode(g.fotoPath, Base64.DEFAULT)
+                    val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                    h.ivFoto.setImageBitmap(decodedImage)
+                }
+            } catch (e: Exception) {
+                h.ivFoto.visibility = View.GONE
+            }
+        } else {
+            h.ivFoto.visibility = View.GONE
+        }
+
         val (label, color, bg) = statusStyle(g.status, h.itemView.context)
         h.tvStatus.text = label
         h.tvStatus.setTextColor(color)

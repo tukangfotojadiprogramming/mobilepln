@@ -8,6 +8,7 @@ data class GangguanResponse(
     @SerializedName("jenis") val jenis: String?,
     @SerializedName("deskripsi") val deskripsi: String?,
     @SerializedName("alamat") val alamat: String?,
+    @SerializedName("fotoPath") val fotoPath: String?, // ubah gambar ke kode Base64
     @SerializedName("status") val status: String?,
     @SerializedName("createdAt") val createdAt: Long?
 )
