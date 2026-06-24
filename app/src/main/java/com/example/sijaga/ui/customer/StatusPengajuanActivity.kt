@@ -1,18 +1,24 @@
 package com.example.sijaga.ui.customer
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sijaga.R
 import com.example.sijaga.data.local.AppDatabase
+import com.example.sijaga.data.local.entity.Gangguan
+import com.example.sijaga.data.local.entity.PasangBaru
+import com.example.sijaga.data.local.remote.ApiClient
 import com.example.sijaga.databinding.ActivityStatusPengajuanBinding
 import com.example.sijaga.ui.adapter.GangguanAdapter
 import com.example.sijaga.ui.adapter.PasangBaruAdapter
 import com.example.sijaga.utils.SessionManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class StatusPengajuanActivity : AppCompatActivity() {
     private lateinit var b: ActivityStatusPengajuanBinding
@@ -28,6 +34,7 @@ class StatusPengajuanActivity : AppCompatActivity() {
         session = SessionManager(this)
         b.btnBack.setOnClickListener { finish() }
 
+        // Inisialisasi adapter
         gangguanAdapter  = GangguanAdapter(emptyList()) {}
         pasangBaruAdapter = PasangBaruAdapter(emptyList()) {}
 
@@ -42,6 +49,11 @@ class StatusPengajuanActivity : AppCompatActivity() {
         b.tabGangguan.setOnClickListener  { switchTab(0) }
         b.tabPasangBaru.setOnClickListener { switchTab(1) }
 
+        // Jalankan pemantauan lokal
+        loadGangguanOffline()
+        loadPasangBaruOffline()
+
+        // Ambil data dari server
         loadGangguan()
         loadPasangBaru()
     }
@@ -57,6 +69,7 @@ class StatusPengajuanActivity : AppCompatActivity() {
             b.tabPasangBaru.setTypeface(null, android.graphics.Typeface.NORMAL)
             b.swipeGangguan.visibility  = View.VISIBLE
             b.swipePasangBaru.visibility = View.GONE
+            loadGangguan()
         } else {
             b.tabPasangBaru.setBackgroundResource(R.drawable.bg_tab_selected)
             b.tabPasangBaru.setTextColor(getColor(R.color.sijaga_primary))
@@ -66,36 +79,125 @@ class StatusPengajuanActivity : AppCompatActivity() {
             b.tabGangguan.setTypeface(null, android.graphics.Typeface.NORMAL)
             b.swipeGangguan.visibility  = View.GONE
             b.swipePasangBaru.visibility = View.VISIBLE
+            loadPasangBaru()
         }
     }
 
     private fun loadGangguan() {
         b.progressBar.visibility = View.VISIBLE
+        val db = AppDatabase.getInstance(this)
+
         lifecycleScope.launch {
-            AppDatabase.getInstance(this@StatusPengajuanActivity)
-                .gangguanDao().getByUser(session.getUserId()).collectLatest { list ->
-                    runOnUiThread {
-                        b.progressBar.visibility = View.GONE
-                        b.swipeGangguan.isRefreshing = false
-                        gangguanAdapter.update(list)
-                        if (currentTab == 0)
-                            b.tvKosong.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
+            try {
+                // Ambil data gangguan dari server Vercel
+                val response = withContext(Dispatchers.IO) { ApiClient.instance.getGangguan() }
+
+                if (response.isSuccessful) {
+                    val remoteList = response.body() ?: emptyList()
+                    var tempId = 1
+                    val mappedList = remoteList.map { res ->
+                        Gangguan(
+                            id = res.id?.hashCode() ?: tempId++,
+                            userId = session.getUserId(),
+                            namaPelapor = res.namaPelapor ?: "Anonim",
+                            telepon = "",
+                            jenis = res.jenis ?: "",
+                            deskripsi = res.deskripsi ?: "",
+                            alamat = res.alamat ?: "",
+                            fotoPath = res.fotoPath ?: "",
+                            status = res.status ?: "baru",
+                            createdAt = res.createdAt ?: System.currentTimeMillis()
+                        )
+                    }
+
+                    // Simpan ke database lokal
+                    withContext(Dispatchers.IO) {
+                        db.gangguanDao().deleteAll()
+                        mappedList.forEach { db.gangguanDao().insertOrUpdate(it) }
                     }
                 }
+            } catch (e: Exception) {
+                Log.e("API_DEBUG", "Error Gangguan: ${e.message}")
+            } finally {
+                withContext(Dispatchers.Main) {
+                    b.progressBar.visibility = View.GONE
+                    b.swipeGangguan.isRefreshing = false
+                }
+            }
+        }
+    }
+
+    private fun loadGangguanOffline() {
+        val db = AppDatabase.getInstance(this)
+        lifecycleScope.launch {
+            // Ambil data gangguan dari database lokal
+            db.gangguanDao().getAll().collectLatest { list ->
+                withContext(Dispatchers.Main) {
+                    b.progressBar.visibility = View.GONE
+                    b.swipeGangguan.isRefreshing = false
+                    gangguanAdapter.update(list)
+                    if (currentTab == 0)
+                        b.tvKosong.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
+                }
+            }
         }
     }
 
     private fun loadPasangBaru() {
+        b.progressBar.visibility = View.VISIBLE
+        val db = AppDatabase.getInstance(this)
+
         lifecycleScope.launch {
-            AppDatabase.getInstance(this@StatusPengajuanActivity)
-                .pasangBaruDao().getByUser(session.getUserId()).collectLatest { list ->
-                    runOnUiThread {
-                        b.swipePasangBaru.isRefreshing = false
-                        pasangBaruAdapter.update(list)
-                        if (currentTab == 1)
-                            b.tvKosong.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
+            try {
+                // Ambil data pasang baru dari server Vercel
+                val response = withContext(Dispatchers.IO) { ApiClient.instance.getPasangBaru() }
+                if (response.isSuccessful) {
+                    val remoteList = response.body() ?: emptyList()
+                    var tempId = 1
+                    val mappedList = remoteList.map { res ->
+                        PasangBaru(
+                            id = res.id?.hashCode() ?: tempId++,
+                            userId = session.getUserId(),
+                            nama = res.nama ?: "",
+                            nik = res.nik ?: "",
+                            telepon = res.telepon ?: "",
+                            alamat = res.alamat ?: "",
+                            daya = res.daya ?: 0,
+                            status = res.status ?: "baru",
+                            createdAt = res.createdAt ?: System.currentTimeMillis()
+                        )
+                    }
+
+                    // Simpan ke database lokal
+                    withContext(Dispatchers.IO) {
+                        // Pastikan di PasangBaruDao juga ada query DELETE untuk clear cache jika dibutuhkan
+                        mappedList.forEach { db.pasangBaruDao().update(it) }
                     }
                 }
+            } catch (e: Exception) {
+                Log.e("API_DEBUG", "Error Pasang Baru: ${e.message}")
+            } finally {
+                withContext(Dispatchers.Main) {
+                    b.progressBar.visibility = View.GONE
+                    b.swipePasangBaru.isRefreshing = false
+                }
+            }
+        }
+    }
+
+    private fun loadPasangBaruOffline() {
+        val db = AppDatabase.getInstance(this)
+        lifecycleScope.launch {
+            // Ambil data pasang baru dari database lokal
+            db.pasangBaruDao().getAll().collectLatest { list ->
+                withContext(Dispatchers.Main) {
+                    b.progressBar.visibility = View.GONE
+                    b.swipePasangBaru.isRefreshing = false
+                    pasangBaruAdapter.update(list)
+                    if (currentTab == 1)
+                        b.tvKosong.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
+                }
+            }
         }
     }
 }

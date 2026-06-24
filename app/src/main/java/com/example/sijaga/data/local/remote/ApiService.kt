@@ -1,15 +1,33 @@
 package com.example.sijaga.data.local.remote
 
-import com.example.sijaga.data.local.entity.Gangguan
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiService {
-    @POST("gangguan")
-    suspend fun postGangguan(@Body gangguan: Gangguan): Response<Gangguan>
 
-    @GET("gangguan")
+    // KELOMPOK GANGGUAN
+
+    @POST("api/gangguan")
+    suspend fun postGangguan(
+        @Body request: GangguanRequest
+    ): Response<GangguanResponse>
+
+    @GET("api/gangguan")
     suspend fun getGangguan(): Response<List<GangguanResponse>>
+
+    @PUT("api/gangguan/{id}")
+    suspend fun updateStatus(
+        @Path("id") id: String,
+        @Body updates: Map<String, String>
+    ): Response<GangguanResponse>
+
+    // KELOMPOK PASANG BARU
+
+    @POST("api/pasang-baru")
+    suspend fun postPasangBaru(
+        @Body request: PasangBaruRequest
+    ): Response<PasangBaruResponse>
+
+    @GET("api/pasang-baru")
+    suspend fun getPasangBaru(): Response<List<PasangBaruResponse>>
 }

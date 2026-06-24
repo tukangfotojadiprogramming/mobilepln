@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.sijaga.data.local.AppDatabase
 import com.example.sijaga.data.local.entity.Gangguan
 import com.example.sijaga.data.local.remote.ApiClient
+import com.example.sijaga.data.local.remote.GangguanRequest
 import com.example.sijaga.databinding.ActivityLaporGangguanBinding
 import com.example.sijaga.utils.SessionManager
 import kotlinx.coroutines.Dispatchers
@@ -83,7 +85,7 @@ class LaporGangguanActivity : AppCompatActivity() {
         val telepon = b.etTelepon.text.toString().trim()
 
         if (jenis.isEmpty() || desk.isEmpty() || alamat.isEmpty()) {
-            Toast.makeText(this, "Lengkapi semua data yang wajib", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Lengkapi semua data", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -92,80 +94,65 @@ class LaporGangguanActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                // 1. UBAH & RESIZE FOTO KE BASE64
+                // Kompresi foto ke Base64
                 val base64Foto = withContext(Dispatchers.IO) {
                     if (fotoPath.isNotEmpty()) {
                         val file = File(fotoPath)
                         if (file.exists()) {
-                            val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-                            BitmapFactory.decodeFile(fotoPath, options)
-                            
-                            val targetSize = 800
-                            var inSampleSize = 1
-                            if (options.outHeight > targetSize || options.outWidth > targetSize) {
-                                val halfHeight = options.outHeight / 2
-                                val halfWidth = options.outWidth / 2
-                                while (halfHeight / inSampleSize >= targetSize && halfWidth / inSampleSize >= targetSize) {
-                                    inSampleSize *= 2
-                                }
-                            }
-
-                            options.inJustDecodeBounds = false
-                            options.inSampleSize = inSampleSize
+                            val options = BitmapFactory.Options().apply { inSampleSize = 8 }
                             val bitmap = BitmapFactory.decodeFile(fotoPath, options)
-                            
-                            val scaledBitmap = if (bitmap.width > targetSize || bitmap.height > targetSize) {
-                                val aspectRatio = bitmap.width.toFloat() / bitmap.height.toFloat()
-                                val width = if (aspectRatio > 1) targetSize else (targetSize * aspectRatio).toInt()
-                                val height = if (aspectRatio > 1) (targetSize / aspectRatio).toInt() else targetSize
-                                Bitmap.createScaledBitmap(bitmap, width, height, true)
-                            } else {
-                                bitmap
-                            }
-
-                            val outputStream = ByteArrayOutputStream()
-                            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 40, outputStream)
-                            val bytes = outputStream.toByteArray()
-                            Base64.encodeToString(bytes, Base64.NO_WRAP)
-                        } else ""
-                    } else ""
+                            val stream = ByteArrayOutputStream()
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 25, stream)
+                            Base64.encodeToString(stream.toByteArray(), Base64.NO_WRAP)
+                        } else null
+                    } else null
                 }
 
-                val g = Gangguan(
+                val request = GangguanRequest(
                     userId = session.getUserId(),
                     namaPelapor = session.getNama(),
                     telepon = telepon,
                     jenis = jenis,
                     deskripsi = desk,
                     alamat = alamat,
-                    fotoPath = base64Foto 
+                    fotoPath = base64Foto
                 )
 
-                // 2. KIRIM KE MOCKAPI
-                val response = ApiClient.instance.postGangguan(g)
+                // Kirim ke server
+                val response = withContext(Dispatchers.IO) { ApiClient.instance.postGangguan(request) }
 
                 if (response.isSuccessful) {
-                    val gLokal = g.copy(fotoPath = fotoPath)
-                    AppDatabase.getInstance(this@LaporGangguanActivity).gangguanDao().insert(gLokal)
+                    val res = response.body()
+                    if (res != null) {
+                        // Simpan ke database lokal
+                        val gLokal = Gangguan(
+                            id = res.id?.hashCode() ?: 0, // Gunakan hash server agar konsisten
+                            userId = session.getUserId(),
+                            namaPelapor = res.namaPelapor ?: session.getNama(),
+                            telepon = telepon,
+                            jenis = res.jenis ?: jenis,
+                            deskripsi = res.deskripsi ?: desk,
+                            alamat = res.alamat ?: alamat,
+                            fotoPath = fotoPath,
+                            status = res.status ?: "baru",
+                            createdAt = System.currentTimeMillis()
+                        )
+                        withContext(Dispatchers.IO) {
+                            AppDatabase.getInstance(this@LaporGangguanActivity).gangguanDao().insertOrUpdate(gLokal)
+                        }
+                    }
 
-                    runOnUiThread {
-                        b.progressBar.visibility = View.GONE
-                        Toast.makeText(this@LaporGangguanActivity, "✅ Berhasil terkirim!", Toast.LENGTH_LONG).show()
-                        finish()
-                    }
+                    Toast.makeText(this@LaporGangguanActivity, "✅ Laporan terkirim!", Toast.LENGTH_LONG).show()
+                    finish()
                 } else {
-                    runOnUiThread {
-                        b.progressBar.visibility = View.GONE
-                        b.btnKirim.isEnabled = true
-                        Toast.makeText(this@LaporGangguanActivity, "Gagal: ${response.message()}", Toast.LENGTH_SHORT).show()
-                    }
+                    Toast.makeText(this@LaporGangguanActivity, "Gagal kirim: ${response.code()}", Toast.LENGTH_SHORT).show()
+                    b.btnKirim.isEnabled = true
                 }
             } catch (e: Exception) {
-                runOnUiThread {
-                    b.progressBar.visibility = View.GONE
-                    b.btnKirim.isEnabled = true
-                    Toast.makeText(this@LaporGangguanActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
+                Toast.makeText(this@LaporGangguanActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                b.btnKirim.isEnabled = true
+            } finally {
+                b.progressBar.visibility = View.GONE
             }
         }
     }

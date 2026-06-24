@@ -53,6 +53,15 @@ interface GangguanDao {
 
     @Update
     suspend fun update(g: Gangguan)
+
+    @Query("DELETE FROM gangguan")
+    suspend fun deleteAll()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertOrUpdate(g: Gangguan): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(list: List<Gangguan>)
 }
 
 @Dao
@@ -74,6 +83,9 @@ interface PasangBaruDao {
 
     @Update
     suspend fun update(p: PasangBaru)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertOrUpdate(data: PasangBaru)
 }
 
 

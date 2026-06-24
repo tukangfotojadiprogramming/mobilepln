@@ -1,6 +1,7 @@
 package com.example.sijaga.ui.adapter
 
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sijaga.R
 import com.example.sijaga.data.local.entity.Gangguan
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,17 +43,16 @@ class ValidasiGangguanAdapter(
         h.tvPelapor.text = "Oleh: ${g.namaPelapor}"
         h.tvLokasi.text  = "📍 ${g.alamat}"
         h.tvTanggal.text = "🕒 ${SimpleDateFormat("dd MMM yyyy, HH:mm", Locale("id")).format(Date(g.createdAt))}"
-        
-        // Logika menampilkan foto Base64 untuk Staff
+
+        // Tampilkan foto: dari file lokal atau Base64 string
         if (g.fotoPath.isNotEmpty()) {
             h.ivFoto.visibility = View.VISIBLE
             try {
                 if (g.fotoPath.startsWith("/")) {
-                    h.ivFoto.setImageURI(android.net.Uri.fromFile(java.io.File(g.fotoPath)))
+                    h.ivFoto.setImageURI(Uri.fromFile(File(g.fotoPath)))
                 } else {
-                    val imageBytes = Base64.decode(g.fotoPath, Base64.DEFAULT)
-                    val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                    h.ivFoto.setImageBitmap(decodedImage)
+                    val bytes = Base64.decode(g.fotoPath, Base64.DEFAULT)
+                    h.ivFoto.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
                 }
             } catch (e: Exception) {
                 h.ivFoto.visibility = View.GONE
@@ -60,18 +61,23 @@ class ValidasiGangguanAdapter(
             h.ivFoto.visibility = View.GONE
         }
 
+        // Setup label status
         val (label, color, bg) = when(g.status) {
-            "baru"          -> Triple("Baru",          R.color.status_baru,          R.color.status_baru_bg)
+            "baru"          -> Triple("Baru", R.color.status_baru, R.color.status_baru_bg)
             "terverifikasi" -> Triple("Terverifikasi", R.color.status_terverifikasi, R.color.status_terverifikasi_bg)
-            "ditolak"       -> Triple("Ditolak",       R.color.status_ditolak,       R.color.status_ditolak_bg)
+            "ditolak"       -> Triple("Ditolak", R.color.status_ditolak, R.color.status_ditolak_bg)
             else            -> Triple(g.status.replaceFirstChar { it.uppercase() }, R.color.text_secondary, R.color.divider)
         }
         h.tvStatus.text = label
         h.tvStatus.setTextColor(h.itemView.context.getColor(color))
         h.tvStatus.setBackgroundColor(h.itemView.context.getColor(bg))
+
         h.btnSetujui.setOnClickListener { onSetujui(g) }
         h.btnTolak.setOnClickListener   { onTolak(g)   }
     }
 
-    fun update(newList: List<Gangguan>) { list = newList; notifyDataSetChanged() }
+    fun update(newList: List<Gangguan>) {
+        list = newList
+        notifyDataSetChanged()
+    }
 }
