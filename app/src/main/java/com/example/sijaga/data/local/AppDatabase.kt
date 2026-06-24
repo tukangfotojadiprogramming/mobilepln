@@ -26,14 +26,14 @@ abstract class AppDatabase : RoomDatabase() {
                 AppDatabase::class.java,
                 "sijaga.db"
             )
-            .fallbackToDestructiveMigration()
-            .build()
-            .also { INSTANCE = it }
+                .fallbackToDestructiveMigration()
+                .build()
+                .also { INSTANCE = it }
         }
 
         suspend fun seedIfEmpty(db: AppDatabase) {
             val count = db.userDao().countAll()
-            if (count > 0) return // sudah ada data, skip
+            if (count > 0) return
 
             db.userDao().insert(User(
                 nama = "Pelanggan Demo",
@@ -48,24 +48,6 @@ abstract class AppDatabase : RoomDatabase() {
                 password = "sijaga123",
                 role = "staff_pln",
                 telepon = "08333333333"
-            ))
-            db.gangguanDao().insert(Gangguan(
-                userId = 1,
-                namaPelapor = "Pelanggan Demo",
-                telepon = "08111111111",
-                jenis = "Mati Total",
-                deskripsi = "Listrik padam sejak pukul 06.00",
-                alamat = "Jl. Sudirman No. 10, Jakarta",
-                status = "baru"
-            ))
-            db.pasangBaruDao().insert(PasangBaru(
-                userId = 1,
-                nama = "Pelanggan Demo",
-                nik = "3174010101900001",
-                telepon = "08111111111",
-                alamat = "Jl. Kebon Jeruk No. 5",
-                daya = 1300,
-                status = "baru"
             ))
         }
     }

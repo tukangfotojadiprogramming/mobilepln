@@ -30,4 +30,10 @@ interface ApiService {
 
     @GET("api/pasang-baru")
     suspend fun getPasangBaru(): Response<List<PasangBaruResponse>>
+
+    @PUT("api/pasang-baru/{id}")
+    suspend fun updateStatusPasangBaru(
+        @Path("id") id: String,
+        @Body updates: Map<String, String>
+    ): Response<PasangBaruResponse>
 }

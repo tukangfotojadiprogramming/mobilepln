@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sijaga.R
 import com.example.sijaga.data.local.AppDatabase
+import com.example.sijaga.data.local.remote.ApiClient
 import com.example.sijaga.data.local.entity.PasangBaru
 import com.example.sijaga.databinding.ActivityValidasiListBinding
 import com.example.sijaga.ui.adapter.ValidasiPasangBaruAdapter
@@ -74,13 +75,29 @@ class ValidasiPasangBaruActivity : AppCompatActivity() {
     }
 
     private fun updateStatus(p: PasangBaru, status: String) {
+        b.progressBar.visibility = View.VISIBLE
         lifecycleScope.launch {
-            AppDatabase.getInstance(this@ValidasiPasangBaruActivity)
-                .pasangBaruDao().update(p.copy(status = status, updatedAt = System.currentTimeMillis()))
-            runOnUiThread {
-                Toast.makeText(this@ValidasiPasangBaruActivity,
-                    if (status == Constants.STATUS_TERVERIFIKASI) "✅ Pengajuan terverifikasi" else "❌ Pengajuan ditolak",
-                    Toast.LENGTH_SHORT).show()
+            try {
+                // 1. Kirim update ke server
+                val response = ApiClient.instance.updateStatusPasangBaru(p.id.toString(), mapOf("status" to status))
+
+                if (response.isSuccessful) {
+                    // 2. Jika sukses di server, baru update di database lokal
+                    AppDatabase.getInstance(this@ValidasiPasangBaruActivity)
+                        .pasangBaruDao().update(p.copy(status = status, updatedAt = System.currentTimeMillis()))
+
+                    runOnUiThread {
+                        Toast.makeText(this@ValidasiPasangBaruActivity, "✅ Status berhasil diupdate", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    throw Exception("Server merespon: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    Toast.makeText(this@ValidasiPasangBaruActivity, "❌ Gagal update: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            } finally {
+                b.progressBar.visibility = View.GONE
             }
         }
     }
