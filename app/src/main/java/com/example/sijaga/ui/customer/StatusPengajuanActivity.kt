@@ -101,6 +101,7 @@ class StatusPengajuanActivity : AppCompatActivity() {
                             userId = session.getUserId(),
                             namaPelapor = res.namaPelapor ?: "Anonim",
                             telepon = "",
+                            idPelanggan = "",
                             jenis = res.jenis ?: "",
                             deskripsi = res.deskripsi ?: "",
                             alamat = res.alamat ?: "",

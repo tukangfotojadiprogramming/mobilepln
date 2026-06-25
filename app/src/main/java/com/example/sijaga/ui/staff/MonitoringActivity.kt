@@ -55,6 +55,7 @@ class MonitoringActivity : AppCompatActivity() {
                             userId = 0,
                             namaPelapor = res.namaPelapor ?: "Anonim",
                             telepon = "",
+                            idPelanggan = "",
                             jenis = res.jenis ?: "Lainnya",
                             deskripsi = res.deskripsi ?: "",
                             alamat = res.alamat ?: "",

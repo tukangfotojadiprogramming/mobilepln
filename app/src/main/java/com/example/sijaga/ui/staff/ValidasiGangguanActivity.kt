@@ -85,6 +85,7 @@ class ValidasiGangguanActivity : AppCompatActivity() {
                             userId = 0,
                             namaPelapor = res.namaPelapor ?: "",
                             telepon = "",
+                            idPelanggan = "",
                             jenis = res.jenis ?: "",
                             deskripsi = res.deskripsi ?: "",
                             alamat = res.alamat ?: "",

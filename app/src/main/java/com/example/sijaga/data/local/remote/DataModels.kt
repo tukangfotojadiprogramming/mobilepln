@@ -31,6 +31,7 @@ data class GangguanRequest(
     @SerializedName("userId") val userId: Int,
     @SerializedName("namaPelapor") val namaPelapor: String,
     @SerializedName("telepon") val telepon: String,
+    @SerializedName("idPelanggan") val idPelanggan: String,
     @SerializedName("jenis") val jenis: String,
     @SerializedName("deskripsi") val deskripsi: String,
     @SerializedName("alamat") val alamat: String,

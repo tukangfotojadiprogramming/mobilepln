@@ -79,10 +79,12 @@ class LaporGangguanActivity : AppCompatActivity() {
     }
 
     private fun kirim() {
-        val jenis   = b.etJenis.text.toString().trim()
-        val desk    = b.etDeskripsi.text.toString().trim()
-        val alamat  = b.etAlamat.text.toString().trim()
-        val telepon = b.etTelepon.text.toString().trim()
+        val jenis       = b.etJenis.text.toString().trim()
+        val desk        = b.etDeskripsi.text.toString().trim()
+        val alamat      = b.etAlamat.text.toString().trim()
+        val telepon     = b.etTelepon.text.toString().trim()
+        val idPelanggan = b.etIdPelanggan.text.toString().trim()
+
 
         if (jenis.isEmpty() || desk.isEmpty() || alamat.isEmpty()) {
             Toast.makeText(this, "Lengkapi semua data", Toast.LENGTH_SHORT).show()
@@ -112,6 +114,7 @@ class LaporGangguanActivity : AppCompatActivity() {
                     userId = session.getUserId(),
                     namaPelapor = session.getNama(),
                     telepon = telepon,
+                    idPelanggan = idPelanggan,
                     jenis = jenis,
                     deskripsi = desk,
                     alamat = alamat,
@@ -130,6 +133,7 @@ class LaporGangguanActivity : AppCompatActivity() {
                             userId = session.getUserId(),
                             namaPelapor = res.namaPelapor ?: session.getNama(),
                             telepon = telepon,
+                            idPelanggan = idPelanggan,
                             jenis = res.jenis ?: jenis,
                             deskripsi = res.deskripsi ?: desk,
                             alamat = res.alamat ?: alamat,

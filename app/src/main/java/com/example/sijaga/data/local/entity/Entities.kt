@@ -20,6 +20,7 @@ data class Gangguan(
     val userId: Int,
     val namaPelapor: String,
     val telepon: String,
+    val idPelanggan: String,
     val jenis: String,
     val deskripsi: String,
     val alamat: String,

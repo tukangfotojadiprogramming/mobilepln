@@ -19,9 +19,11 @@
                     <com.google.android.material.textfield.TextInputLayout style="@style/InputField" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Alamat Lengkap" android:layout_marginBottom="12dp">
                         <com.google.android.material.textfield.TextInputEditText android:id="@+id/etAlamat" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textMultiLine" android:lines="2" android:gravity="top"/>
                     </com.google.android.material.textfield.TextInputLayout>
-                    <com.google.android.material.textfield.TextInputLayout style="@style/InputField" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Nomor Telepon" android:layout_marginBottom="0dp">
+                    <com.google.android.material.textfield.TextInputLayout style="@style/InputField" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Nomor Telepon" android:layout_marginBottom="12dp">
                         <com.google.android.material.textfield.TextInputEditText android:id="@+id/etTelepon" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="phone"/>
                     </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout style="@style/InputField" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="ID Pelanggan" android:layout_marginBottom="12dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etIdPelanggan" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="text" /></com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="20dp" app:cardCornerRadius="16dp" app:cardElevation="2dp" app:cardBackgroundColor="@color/bg_card">
