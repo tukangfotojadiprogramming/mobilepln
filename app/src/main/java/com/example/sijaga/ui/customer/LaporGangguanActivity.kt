@@ -137,7 +137,7 @@ class LaporGangguanActivity : AppCompatActivity() {
                             jenis = res.jenis ?: jenis,
                             deskripsi = res.deskripsi ?: desk,
                             alamat = res.alamat ?: alamat,
-                            fotoPath = fotoPath,
+                            fotoPath = base64Foto ?: "",
                             status = res.status ?: "baru",
                             createdAt = System.currentTimeMillis()
                         )

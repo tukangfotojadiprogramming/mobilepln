@@ -1,7 +1,7 @@
 package com.example.sijaga.ui.adapter
 
 import android.graphics.BitmapFactory
-import android.net.Uri
+import android.util.Log
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,6 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sijaga.R
 import com.example.sijaga.data.local.entity.Gangguan
-import java.io.File
 
 class GangguanAdapter(
     private var list: List<Gangguan>,
@@ -36,28 +35,48 @@ class GangguanAdapter(
 
     override fun onBindViewHolder(h: VH, i: Int) {
         val g = list[i]
+        Log.d("FOTO_DEBUG", "Jenis: ${g.jenis}")
+        Log.d("FOTO_DEBUG", "FotoPath: ${g.fotoPath.take(100)}")
+
         h.tvIkon.text    = "⚠️"
         h.tvJudul.text   = g.jenis
         h.tvLokasi.text  = "📍 ${g.alamat}"
         h.tvTanggal.text = "🕒 ${java.text.SimpleDateFormat("dd MMM yyyy, HH:mm", java.util.Locale("id")).format(java.util.Date(g.createdAt))}"
-        
-        // Menampilkan Foto (Base64 atau Local Path)
+
+        // Menampilkan Foto (Base64)
         if (g.fotoPath.isNotEmpty()) {
-            h.ivFoto.visibility = View.VISIBLE
+
             try {
-                if (g.fotoPath.startsWith("/")) {
-                    // Path Lokal (HP Pengirim)
-                    h.ivFoto.setImageURI(Uri.fromFile(File(g.fotoPath)))
-                } else {
-                    // Base64 String (HP Penerima dari Server)
-                    val imageBytes = Base64.decode(g.fotoPath, Base64.DEFAULT)
-                    val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                    h.ivFoto.setImageBitmap(decodedImage)
-                }
+
+                h.ivFoto.visibility = View.VISIBLE
+
+                val pureBase64 = g.fotoPath.substringAfter(",")
+
+                val imageBytes = Base64.decode(
+                    pureBase64,
+                    Base64.DEFAULT
+                )
+
+                val bitmap = BitmapFactory.decodeByteArray(
+                    imageBytes,
+                    0,
+                    imageBytes.size
+                )
+
+                h.ivFoto.setImageBitmap(bitmap)
+
             } catch (e: Exception) {
+
+                Log.e(
+                    "FOTO_ERROR",
+                    e.message ?: "Unknown Error"
+                )
+
                 h.ivFoto.visibility = View.GONE
             }
+
         } else {
+
             h.ivFoto.visibility = View.GONE
         }
 

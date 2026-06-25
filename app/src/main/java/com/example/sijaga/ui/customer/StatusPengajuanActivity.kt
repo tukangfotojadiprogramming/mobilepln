@@ -96,6 +96,8 @@ class StatusPengajuanActivity : AppCompatActivity() {
                     val remoteList = response.body() ?: emptyList()
                     var tempId = 1
                     val mappedList = remoteList.map { res ->
+                        Log.d("FOTO_SERVER", "Foto dari server: ${res.fotoPath}")
+
                         Gangguan(
                             id = res.id?.hashCode() ?: tempId++,
                             userId = session.getUserId(),
@@ -113,8 +115,9 @@ class StatusPengajuanActivity : AppCompatActivity() {
 
                     // Simpan ke database lokal
                     withContext(Dispatchers.IO) {
-                        db.gangguanDao().deleteAll()
-                        mappedList.forEach { db.gangguanDao().insertOrUpdate(it) }
+                        mappedList.forEach {
+                            db.gangguanDao().insertOrUpdate(it)
+                        }
                     }
                 }
             } catch (e: Exception) {
