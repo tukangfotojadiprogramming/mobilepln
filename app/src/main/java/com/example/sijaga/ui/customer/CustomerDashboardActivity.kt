@@ -16,7 +16,7 @@ import com.example.sijaga.utils.SessionManager
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class CustomerDashboardActivity : AppCompatActivity() {
+class  CustomerDashboardActivity : AppCompatActivity() {
     private lateinit var b: ActivityCustomerDashboardBinding
     private lateinit var session: SessionManager
     private lateinit var adapter: GangguanAdapter

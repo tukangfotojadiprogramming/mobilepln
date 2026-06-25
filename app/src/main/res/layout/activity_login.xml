@@ -89,7 +89,7 @@
                         android:text="🔑  Akun Demo" android:textColor="@color/sijaga_primary"
                         android:textSize="13sp" android:textStyle="bold" android:layout_marginBottom="6dp"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="pelanggan@sijaga.com  /  sijaga123&#10;staff@sijaga.com  /  sijaga123"
+                        android:text="vendor@sijaga.com  /  sijaga123&#10;staff@sijaga.com  /  sijaga123"
                         android:textColor="@color/text_secondary" android:textSize="12sp"
                         android:fontFamily="monospace" android:lineSpacingExtra="4dp"/>
                 </LinearLayout>

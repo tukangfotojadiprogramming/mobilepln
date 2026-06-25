@@ -36,8 +36,8 @@ abstract class AppDatabase : RoomDatabase() {
             if (count > 0) return
 
             db.userDao().insert(User(
-                nama = "Pelanggan Demo",
-                email = "pelanggan@sijaga.com",
+                nama = "Vendor Demo",
+                email = "vendor@sijaga.com",
                 password = "sijaga123",
                 role = "masyarakat",
                 telepon = "08111111111"
