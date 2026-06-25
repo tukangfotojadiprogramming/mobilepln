@@ -55,7 +55,7 @@ class StaffDashboardActivity : AppCompatActivity() {
                     db.pasangBaruDao().deleteAll()
                     list.forEach { item ->
                         val entity = PasangBaru(
-                            id = item.id.toIntOrNull() ?: 0,
+                            serverId = item.id,
                             userId = item.userId ?: 0,
                             nama = item.nama ?: "",
                             nik = item.nik ?: "",
@@ -68,11 +68,9 @@ class StaffDashboardActivity : AppCompatActivity() {
                     }
                 }
             } catch (e: Exception) {
-                // Gagal sync? Tenang, tetap pakai data lokal
             }
         }
 
-        // Tampilkan statistik (kode asli kamu)
         lifecycleScope.launch {
             launch { db.gangguanDao().countBaru().collectLatest { n -> runOnUiThread {
                 b.tvStatValidasi.text = n.toString()

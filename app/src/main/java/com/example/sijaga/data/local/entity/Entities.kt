@@ -32,7 +32,11 @@ data class Gangguan(
 
 @Entity(tableName = "pasang_baru")
 data class PasangBaru(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+
+    val serverId: String = "",
+
     val userId: Int,
     val nama: String,
     val nik: String,

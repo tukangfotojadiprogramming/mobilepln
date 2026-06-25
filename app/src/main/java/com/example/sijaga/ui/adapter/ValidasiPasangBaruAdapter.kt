@@ -28,21 +28,58 @@ class ValidasiPasangBaruAdapter(
 
     override fun onBindViewHolder(h: VH, i: Int) {
         val p = list[i]
+
         h.tvJudul.text   = "Pasang Baru – ${p.daya} VA"
         h.tvPelapor.text = "Oleh: ${p.nama}"
         h.tvLokasi.text  = "📍 ${p.alamat}"
         h.tvTanggal.text = "🕒 ${SimpleDateFormat("dd MMM yyyy, HH:mm", Locale("id")).format(Date(p.createdAt))}"
+
         val (label, color, bg) = when(p.status) {
-            "baru"          -> Triple("Baru",          R.color.status_baru,          R.color.status_baru_bg)
-            "terverifikasi" -> Triple("Terverifikasi", R.color.status_terverifikasi, R.color.status_terverifikasi_bg)
-            "ditolak"       -> Triple("Ditolak",       R.color.status_ditolak,       R.color.status_ditolak_bg)
-            else            -> Triple(p.status.replaceFirstChar { it.uppercase() }, R.color.text_secondary, R.color.divider)
+            "baru" -> Triple(
+                "Baru",
+                R.color.status_baru,
+                R.color.status_baru_bg
+            )
+
+            "terverifikasi" -> Triple(
+                "Terverifikasi",
+                R.color.status_terverifikasi,
+                R.color.status_terverifikasi_bg
+            )
+
+            "ditolak" -> Triple(
+                "Ditolak",
+                R.color.status_ditolak,
+                R.color.status_ditolak_bg
+            )
+
+            else -> Triple(
+                p.status.replaceFirstChar { it.uppercase() },
+                R.color.text_secondary,
+                R.color.divider
+            )
         }
+
         h.tvStatus.text = label
         h.tvStatus.setTextColor(h.itemView.context.getColor(color))
         h.tvStatus.setBackgroundColor(h.itemView.context.getColor(bg))
-        h.btnSetujui.setOnClickListener { onSetujui(p) }
-        h.btnTolak.setOnClickListener   { onTolak(p)   }
+
+        // Tampilkan tombol hanya untuk status BARU
+        if (p.status == "baru") {
+            h.btnSetujui.visibility = View.VISIBLE
+            h.btnTolak.visibility = View.VISIBLE
+
+            h.btnSetujui.setOnClickListener {
+                onSetujui(p)
+            }
+
+            h.btnTolak.setOnClickListener {
+                onTolak(p)
+            }
+        } else {
+            h.btnSetujui.visibility = View.GONE
+            h.btnTolak.visibility = View.GONE
+        }
     }
 
     fun update(newList: List<PasangBaru>) { list = newList; notifyDataSetChanged() }

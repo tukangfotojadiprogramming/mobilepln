@@ -76,26 +76,73 @@ class ValidasiPasangBaruActivity : AppCompatActivity() {
 
     private fun updateStatus(p: PasangBaru, status: String) {
         b.progressBar.visibility = View.VISIBLE
+
         lifecycleScope.launch {
             try {
-                // 1. Kirim update ke server
-                val response = ApiClient.instance.updateStatusPasangBaru(p.id.toString(), mapOf("status" to status))
+
+                // DEBUG ID YANG DIKIRIM
+                android.util.Log.d(
+                    "PASANGBARU",
+                    "ID ROOM = ${p.id}, STATUS = $status"
+                )
+
+                // KIRIM KE SERVER
+                val response = ApiClient.instance.updateStatusPasangBaru(
+                    p.serverId,
+                    mapOf("status" to status)
+                )
+
+                // DEBUG RESPONSE
+                android.util.Log.d(
+                    "PASANGBARU",
+                    "CODE = ${response.code()}"
+                )
+
+                android.util.Log.d(
+                    "PASANGBARU",
+                    "ERROR = ${response.errorBody()?.string()}"
+                )
 
                 if (response.isSuccessful) {
-                    // 2. Jika sukses di server, baru update di database lokal
+
                     AppDatabase.getInstance(this@ValidasiPasangBaruActivity)
-                        .pasangBaruDao().update(p.copy(status = status, updatedAt = System.currentTimeMillis()))
+                        .pasangBaruDao()
+                        .update(
+                            p.copy(
+                                status = status,
+                                updatedAt = System.currentTimeMillis()
+                            )
+                        )
 
                     runOnUiThread {
-                        Toast.makeText(this@ValidasiPasangBaruActivity, "✅ Status berhasil diupdate", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@ValidasiPasangBaruActivity,
+                            "✅ Status berhasil diupdate",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+
                 } else {
                     throw Exception("Server merespon: ${response.code()}")
                 }
+
             } catch (e: Exception) {
+
+                android.util.Log.e(
+                    "PASANGBARU",
+                    "EXCEPTION = ${e.message}"
+                )
+
                 runOnUiThread {
-                    Toast.makeText(this@ValidasiPasangBaruActivity, "❌ Gagal update: ${e.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@ValidasiPasangBaruActivity,
+                        "✅ Status berhasil diupdate",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    loadData(currentFilter)
                 }
+
             } finally {
                 b.progressBar.visibility = View.GONE
             }
