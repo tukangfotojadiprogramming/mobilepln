@@ -1,7 +1,6 @@
 package com.example.sijaga.ui.adapter
 
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +10,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sijaga.R
 import com.example.sijaga.data.local.entity.Gangguan
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import android.util.Log
 
 class ValidasiGangguanAdapter(
     private var list: List<Gangguan>,
@@ -44,20 +43,40 @@ class ValidasiGangguanAdapter(
         h.tvLokasi.text  = "📍 ${g.alamat}"
         h.tvTanggal.text = "🕒 ${SimpleDateFormat("dd MMM yyyy, HH:mm", Locale("id")).format(Date(g.createdAt))}"
 
-        // Tampilkan foto: dari file lokal atau Base64 string
+        // Tampilkan foto Base64
         if (g.fotoPath.isNotEmpty()) {
-            h.ivFoto.visibility = View.VISIBLE
+
             try {
-                if (g.fotoPath.startsWith("/")) {
-                    h.ivFoto.setImageURI(Uri.fromFile(File(g.fotoPath)))
-                } else {
-                    val bytes = Base64.decode(g.fotoPath, Base64.DEFAULT)
-                    h.ivFoto.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
-                }
+
+                h.ivFoto.visibility = View.VISIBLE
+
+                val pureBase64 = g.fotoPath.substringAfter(",")
+
+                val bytes = Base64.decode(
+                    pureBase64,
+                    Base64.DEFAULT
+                )
+
+                val bitmap = BitmapFactory.decodeByteArray(
+                    bytes,
+                    0,
+                    bytes.size
+                )
+
+                h.ivFoto.setImageBitmap(bitmap)
+
             } catch (e: Exception) {
+
+                Log.e(
+                    "FOTO_STAFF",
+                    e.message ?: "Error"
+                )
+
                 h.ivFoto.visibility = View.GONE
             }
+
         } else {
+
             h.ivFoto.visibility = View.GONE
         }
 
